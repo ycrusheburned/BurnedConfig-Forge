@@ -34,9 +34,11 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           echo "=== find jars ===" > tail.log
-          find . -name "*.jar" -not -path "*/caches/*" >> tail.log 2>&1
-          echo "=== forge/build tree ===" >> tail.log
-          find forge/build -maxdepth 4 >> tail.log 2>&1
+          (find . -name "*.jar" -not -path "*/caches/*" >> tail.log 2>&1) || true
+          echo "=== repo root tree ===" >> tail.log
+          (find . -maxdepth 2 -not -path "./.git*" >> tail.log 2>&1) || true
+          echo "=== forge dir tree ===" >> tail.log
+          (find forge -maxdepth 5 >> tail.log 2>&1) || true
           echo "=== log tail ===" >> tail.log
           tail -c 40000 build_output.log >> tail.log
           python3 .github/scripts/report_failure.py
