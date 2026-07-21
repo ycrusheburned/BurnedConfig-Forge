@@ -9,13 +9,13 @@ java {
 }
 
 minecraft {
-    mappings("official", "1.20.1")
+    mappings("official", "1.21.11")
 }
 
 val shade: Configuration by configurations.creating
 
 dependencies {
-    minecraft("net.minecraftforge:forge:1.20.1-47.4.0")
+    minecraft("net.minecraftforge:forge:1.21.11-61.1.0")
     shade(project(":core"))
     implementation(project(":core"))
     compileOnly("com.google.code.gson:gson:2.11.0")
@@ -32,7 +32,7 @@ tasks.shadowJar {
     // giderir.
     configurations = listOf(shade)
     archiveClassifier.set("")
-    archiveVersion.set("${project.version}-1.20.1")
+    archiveVersion.set("${project.version}-1.21.11")
 }
 
 // ForgeGradle varsayılan olarak "jar" task'ını hedefleyen bir reobfJar

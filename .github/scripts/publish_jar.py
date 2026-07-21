@@ -4,7 +4,7 @@ import json
 import os
 import urllib.request
 
-paths = glob.glob("forge/build/libs/BurnedConfig-forge-*-1.20.1.jar")
+paths = glob.glob("forge/build/libs/BurnedConfig-forge-*-1.21.11.jar")
 if not paths:
     raise SystemExit("No jar found to publish")
 
