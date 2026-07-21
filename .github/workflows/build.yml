@@ -41,8 +41,10 @@ jobs:
           (find . -maxdepth 2 -not -path "./.git*" >> tail.log 2>&1) || true
           echo "=== forge dir tree ===" >> tail.log
           (find forge -maxdepth 5 >> tail.log 2>&1) || true
+          echo "=== error section ===" >> tail.log
+          (grep -n -A 60 "FAILURE: Build failed" build_output.log >> tail.log 2>&1) || true
           echo "=== log tail ===" >> tail.log
-          tail -c 40000 build_output.log >> tail.log
+          tail -c 20000 build_output.log >> tail.log
           python3 .github/scripts/report_failure.py
 
       - name: Upload forge jar
