@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+issueTrackerURL="https://github.com/ycrusheburned/BurnedConfig-Forge/issues"
+
+[[mods]]
+modId="burnedconfig"
+version="${file.jarVersion}"
+displayName="BurnedConfig"
+authors="BurnedCraft"
+description='''
+Forge modları için annotation tabanlı ve builder tabanlı, allocation-dostu config kütüphanesi.
+'''
+
+[[dependencies.burnedconfig]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.burnedconfig]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.20.2)"
+    ordering="NONE"
+    side="BOTH"
