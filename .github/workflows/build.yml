@@ -27,13 +27,18 @@ jobs:
       - name: Build
         run: gradle build --stacktrace 2>&1 | tee build_output.log
 
-      - name: Report failure log
-        if: failure()
+      - name: Report build report
+        if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          tail -c 60000 build_output.log > tail.log
+          echo "=== find jars ===" > tail.log
+          find . -name "*.jar" -not -path "*/caches/*" >> tail.log 2>&1
+          echo "=== forge/build tree ===" >> tail.log
+          find forge/build -maxdepth 4 >> tail.log 2>&1
+          echo "=== log tail ===" >> tail.log
+          tail -c 40000 build_output.log >> tail.log
           python3 .github/scripts/report_failure.py
 
       - name: Upload forge jar
