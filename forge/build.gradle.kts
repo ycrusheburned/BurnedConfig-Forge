@@ -4,8 +4,10 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    // Forge 1.21.11 (ve dolayısıyla eventbus/fmlcore/fmlloader vb.) Java 21
+    // gerektiriyor.
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 minecraft {
