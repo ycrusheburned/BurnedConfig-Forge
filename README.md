@@ -1,6 +1,6 @@
 # BurnedConfig-Forge
 
-[BurnedConfig](https://github.com/ycrusheburned/BurnedConfig) kütüphanesinin **Forge 1.20.1** portu.
+[BurnedConfig](https://github.com/ycrusheburned/BurnedConfig) kütüphanesinin **Forge 1.21.11** portu.
 
 `core` modülü orijinal Fabric deposundan hiç değiştirilmeden taşındı;
 tüm config mantığı (annotation API + builder API) aynen korunuyor.
