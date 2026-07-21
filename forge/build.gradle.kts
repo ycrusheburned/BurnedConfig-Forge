@@ -12,8 +12,11 @@ minecraft {
     mappings("official", "1.20.1")
 }
 
+val shade: Configuration by configurations.creating
+
 dependencies {
     minecraft("net.minecraftforge:forge:1.20.1-47.4.0")
+    shade(project(":core"))
     implementation(project(":core"))
     compileOnly("com.google.code.gson:gson:2.11.0")
 }
@@ -23,13 +26,13 @@ base {
 }
 
 tasks.shadowJar {
+    // YALNIZCA 'shade' configuration'ındaki (yani core) sınıflar gömülür.
+    // Varsayılan davranış tüm runtime classpath'i (Minecraft/Forge dahil)
+    // taradığından jar'ı yüz megabaytlara şişiriyordu; bu satır o hatayı
+    // giderir.
+    configurations = listOf(shade)
     archiveClassifier.set("")
     archiveVersion.set("${project.version}-1.20.1")
-    dependencies {
-        // core dışında hiçbir şey gömülmez: Gson ve Forge zaten runtime'da
-        // mevcuttur, tekrar paketlenmeleri jar boyutunu şişirir.
-        exclude(dependency("com.google.code.gson:gson"))
-    }
 }
 
 // ForgeGradle varsayılan olarak "jar" task'ını hedefleyen bir reobfJar
