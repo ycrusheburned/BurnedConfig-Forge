@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +25,31 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: gradle build --stacktrace
+        run: gradle build --stacktrace 2>&1 | tee build_output.log
+
+      - name: Report failure log
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tail -c 60000 build_output.log > tail.log
+          python3 - << 'PYEOF'
+import json, os, urllib.request
+with open("tail.log", "r", errors="replace") as f:
+    body = f.read()
+data = json.dumps({"title": "Build failure log", "body": "```\n" + body[-60000:] + "\n```"}).encode()
+req = urllib.request.Request(
+    "https://api.github.com/repos/${{ github.repository }}/issues",
+    data=data,
+    headers={
+        "Authorization": "token " + os.environ["GH_TOKEN"],
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+    },
+    method="POST",
+)
+urllib.request.urlopen(req)
+PYEOF
 
       - name: Upload forge jar
         uses: actions/upload-artifact@v4
