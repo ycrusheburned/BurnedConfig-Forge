@@ -26,16 +26,24 @@ tasks.shadowJar {
     archiveClassifier.set("")
     archiveVersion.set("${project.version}-1.20.1")
     dependencies {
+        // core dışında hiçbir şey gömülmez: Gson ve Forge zaten runtime'da
+        // mevcuttur, tekrar paketlenmeleri jar boyutunu şişirir.
         exclude(dependency("com.google.code.gson:gson"))
     }
-    // core burada gömülüyor; forge kendi Gson'unu runtime'da zaten sağlıyor.
-    relocate("dev.burned.config.internal", "dev.burned.config.internal")
 }
 
+// Varsayılan (shade edilmemiş, core'u içermeyen) jar task'ına ihtiyacımız
+// yok; tek dağıtım artifact'i shadowJar'dır.
 tasks.jar {
-    finalizedBy("reobfJar")
+    enabled = false
+}
+
+// ForgeGradle'ın normalde reobfJar (plain jar task'ı hedefleyen) yerine,
+// asıl dağıtacağımız shadowJar çıktısını reobfuscate ediyoruz.
+reobf {
+    create("shadowJar")
 }
 
 tasks.build {
-    dependsOn(tasks.shadowJar)
+    dependsOn("reobfShadowJar")
 }

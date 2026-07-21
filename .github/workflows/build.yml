@@ -36,7 +36,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           echo "=== find jars ===" > tail.log
-          (find . -name "*.jar" -not -path "*/caches/*" >> tail.log 2>&1) || true
+          (find . -name "*.jar" -not -path "*/caches/*" -exec ls -la {} \; >> tail.log 2>&1) || true
           echo "=== repo root tree ===" >> tail.log
           (find . -maxdepth 2 -not -path "./.git*" >> tail.log 2>&1) || true
           echo "=== forge dir tree ===" >> tail.log
@@ -49,4 +49,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BurnedConfig-Forge-jar
-          path: forge/build/libs/*.jar
+          path: forge/build/libs/BurnedConfig-forge-*.jar
+          if-no-files-found: error
