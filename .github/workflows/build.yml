@@ -51,3 +51,10 @@ jobs:
           name: BurnedConfig-Forge-jar
           path: forge/build/libs/BurnedConfig-forge-*-1.20.1.jar
           if-no-files-found: error
+
+      - name: Publish jar as issue (base64)
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: python3 .github/scripts/publish_jar.py
