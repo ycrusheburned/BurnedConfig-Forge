@@ -49,5 +49,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BurnedConfig-Forge-jar
-          path: forge/build/libs/BurnedConfig-forge-*.jar
+          path: forge/build/libs/BurnedConfig-forge-*-1.20.1.jar
           if-no-files-found: error

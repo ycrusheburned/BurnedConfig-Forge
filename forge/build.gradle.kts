@@ -32,11 +32,9 @@ tasks.shadowJar {
     }
 }
 
-// Varsayılan (shade edilmemiş, core'u içermeyen) jar task'ına ihtiyacımız
-// yok; tek dağıtım artifact'i shadowJar'dır.
-tasks.jar {
-    enabled = false
-}
+// ForgeGradle varsayılan olarak "jar" task'ını hedefleyen bir reobfJar
+// oluşturur; bu yüzden plain jar'ı devre dışı bırakmıyoruz, sadece
+// dağıtım artifact'i olarak shadowJar'ı (core gömülü) kullanıyoruz.
 
 // ForgeGradle'ın normalde reobfJar (plain jar task'ı hedefleyen) yerine,
 // asıl dağıtacağımız shadowJar çıktısını reobfuscate ediyoruz.
